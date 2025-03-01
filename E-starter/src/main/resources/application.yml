@@ -1,0 +1,29 @@
+server:
+  port: 6666
+logging:
+  config: classpath:log4j2-spring.xml
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tictok-E-commerce?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 20
+      min-idle: 20
+      max-active: 100
+      max-wait: 60000
+      # 监控页面配置
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: root
+        login-password: root
+      filter:
+        stat:
+          enabled: true
+          slow-sql-millis: 2000
+          log-slow-sql: true
+        wall:
+          enabled: true
