@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puxinxiaolin.infra.basic.mapper.GoodsDao">
+    <resultMap type="com.puxinxiaolin.infra.basic.entity.Goods" id="TGoodsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="stock" column="stock" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TGoodsMap">
+        select id,
+               goods_name,
+               price,
+               type,
+               stock,
+               status,
+               create_time,
+               update_time,
+               created_by,
+               updated_by,
+               is_deleted
+        from t_goods
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TGoodsMap">
+        select
+        id, goods_name, price, type, stock, status, create_time, update_time, created_by, updated_by, is_deleted
+        from t_goods
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name = #{goodsName}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="stock != null">
+                and stock = #{stock}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by = #{updatedBy}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t_goods
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name = #{goodsName}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="stock != null">
+                and stock = #{stock}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by = #{updatedBy}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_goods(goods_name, price, type, stock, status, create_time, update_time, created_by, updated_by,
+                            is_deleted)
+        values (#{goodsName}, #{price}, #{type}, #{stock}, #{status}, #{createTime}, #{updateTime}, #{createdBy},
+                #{updatedBy}, #{isDeleted})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_goods(goods_name, price, type, stock, status, create_time, update_time, created_by, updated_by,
+        is_deleted)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.goodsName}, #{entity.price}, #{entity.type}, #{entity.stock}, #{entity.status},
+            #{entity.createTime}, #{entity.updateTime}, #{entity.createdBy}, #{entity.updatedBy}, #{entity.isDeleted})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_goods(goods_name, price, type, stock, status, create_time, update_time, created_by, updated_by,
+        is_deleted)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.goodsName}, #{entity.price}, #{entity.type}, #{entity.stock}, #{entity.status},
+            #{entity.createTime}, #{entity.updateTime}, #{entity.createdBy}, #{entity.updatedBy}, #{entity.isDeleted})
+        </foreach>
+        on duplicate key update
+        goods_name = values(goods_name),
+        price = values(price),
+        type = values(type),
+        stock = values(stock),
+        status = values(status),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        created_by = values(created_by),
+        updated_by = values(updated_by),
+        is_deleted = values(is_deleted)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_goods
+        <set>
+            <if test="goodsName != null and goodsName != ''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="stock != null">
+                stock = #{stock},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from t_goods
+        where id = #{id}
+    </delete>
+
+    <select id="countByCondition" resultType="int">
+        select count(1)
+        from t_goods
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name = #{goodsName}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="stock != null">
+                and stock = #{stock}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by = #{updatedBy}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPage" resultMap="TGoodsMap">
+        select
+        id, goods_name, price, type, stock, status, create_time, update_time, created_by, updated_by, is_deleted
+        from t_goods
+        <where>
+            <if test="goods.type != null">
+                and type = #{goods.type}
+            </if>
+            <if test="goods.status != null">
+                and status = #{goods.status}
+            </if>
+            <if test="goods.isDeleted != null">
+                and is_deleted = #{goods.isDeleted}
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+</mapper>
+
