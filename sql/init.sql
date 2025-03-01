@@ -11,7 +11,7 @@
  Target Server Version : 80034 (8.0.34)
  File Encoding         : 65001
 
- Date: 01/03/2025 13:06:31
+ Date: 01/03/2025 13:35:35
 */
 
 SET NAMES utf8mb4;
@@ -34,11 +34,11 @@ CREATE TABLE `t_goods`  (
                             `updated_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
                             `is_deleted` int NULL DEFAULT NULL COMMENT '是否删除 0:未删除 1:已删除',
                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_goods
 -- ----------------------------
-INSERT INTO `t_goods` VALUES (3, '菠萝手机3代 pro max', 6999.99, 4, 5000, 0, '2025-03-01 13:03:08', '2025-03-01 13:03:08', 'admin', 'admin', 0);
+INSERT INTO `t_goods` VALUES (5, '菠萝手机2代 pro max', 4999.99, 2, 5000, 0, '2025-03-01 13:08:02', '2025-03-01 13:08:02', 'admin', 'admin', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
